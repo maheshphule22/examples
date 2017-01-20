@@ -1,0 +1,106 @@
+#include <stdio.h>
+
+// remove these
+#define uint8_t int
+
+
+enum shop_state;
+
+// Global variables
+uint8_t current_state, previous_state;
+char *expected_open_time, *expected_close_time;
+
+
+void initialisation(void);
+void loop(void);
+void check_time(void);
+char *get_current_time(void);
+void read_eeprom_variable(void);
+void write_eeprom_variable(void);
+
+int main(void) {
+    uint8_t temp = 10;
+    
+    // required initialisation goes here
+    initialisation();
+	
+	printf("current_state = %d\tprevious_state = %d\n", current_state, previous_state);
+	printf("temp = %d\n", temp);
+	
+	loop();
+	
+	/*while(1){
+	    
+	}*/
+	return 0;
+}
+
+enum shop_state {
+    actual_close_expected_close,    // normal state
+    actual_close_expected_open,     //on holiday?
+    actual_open_expected_close,     // alarm
+    actual_open_expected_open      // normal state
+};
+
+void initialisation(void) {
+    // initialise sensor ports direction and pullups
+    // initialise output ports direction and default value
+    // initialise serial com
+    // initialise gsm
+    
+    // initializing states
+    previous_state = actual_close_expected_close;
+    current_state = actual_open_expected_open;
+}
+
+void loop(void) {
+    
+    // check current time and update states
+    check_time();
+    
+    // check shop state and update states
+    
+    // state handling and further logic
+    // 
+}
+
+void check_time(void) {
+    // get current time from gsm
+    char *current_time = get_current_time();
+    //puts(current_time);
+    
+    // compare times and update variables
+    if( compare_time_str(current_time, expected_close_time) ){
+        
+    }
+}
+uint8_t compare_time_str(char* time_1, char* time_2) {
+    
+}
+
+char *get_current_time(void) {
+    // get time from gsm
+    return("12:00:00 12/12/2017");
+}
+
+
+void read_eeprom_variable(void) {
+    // load these variables from eeprom
+    expected_open_time = "10:00:00";
+    expected_close_time = "20:00:00";
+}
+
+void write_eeprom_variable(void){
+    // check open time is less than close time
+    
+    // write variables in eeprom
+}
+
+
+// put these in string operations file and import it
+uint8_t get_str_size(const char *input_str){
+    uint8_t length = 0;
+    while(input_str[length++] != 0);
+    return length;
+}
+
